@@ -81,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
         getpasswd = intent.getStringExtra("passwd");
         account.setText(getaccount);
         password.setText(getpasswd);
+
+
     }
 
     /**
@@ -215,6 +217,7 @@ public class LoginActivity extends AppCompatActivity {
                         "登入失敗:剩餘" + (5 - Enabled >= 0 ? 5 - Enabled : 0), Snackbar.LENGTH_INDEFINITE);
                 snackbar.show();
                 return;
+
             }
 
             if (Enabled >= 5) {

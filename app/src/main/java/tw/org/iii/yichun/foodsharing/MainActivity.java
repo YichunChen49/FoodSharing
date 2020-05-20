@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
@@ -32,7 +34,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +44,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tw.org.iii.yichun.foodsharing.Global.MainUtils;
 import tw.org.iii.yichun.foodsharing.Global.MyCamera.MyCamara2;
+import tw.org.iii.yichun.foodsharing.Item.User;
 import tw.org.iii.yichun.foodsharing.Loading.LoginActivity;
 import tw.org.iii.yichun.foodsharing.profile.ProfileFragment;
 
@@ -190,12 +195,45 @@ public class MainActivity extends AppCompatActivity {
      * 點擊toolbar上的登出按鈕
      */
     private void Sign_out(){
+
+        UIhandler uIhandler = new UIhandler();//刪除token需在後端執行,因此實作出handler,讓他回到主線程
+
+        uIhandler.sendEmptyMessage(50);//刪除現在用戶的token
+
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
         startActivity(intent);
         this.finish();
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+    }
+
+    /**
+     * 刪除token需在後端執行,因此實作出handler,讓他回到主線程
+     */
+    private class UIhandler extends Handler{
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if (msg.what==50){
+                mythread();
+            }
+        }
+    }
+
+    /**
+     * 刪除現在用戶使用的token
+     */
+    private void mythread(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    FirebaseInstanceId.getInstance().deleteInstanceId();
+                } catch (IOException e) {
+                   Log.v("lipin","刪除token:"+e.toString());
+                }
+            }
+        }).start();
     }
 
     /**
@@ -285,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(receiver);
+
         super.onDestroy();
     }
 }

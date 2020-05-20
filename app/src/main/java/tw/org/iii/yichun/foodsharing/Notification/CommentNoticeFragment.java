@@ -91,6 +91,8 @@ public class CommentNoticeFragment extends Fragment {
 
         @Override
         public int getCount() {
+            Log.v("lipin",data.size()+"大小");
+
             return data.size();
         }
 
@@ -117,7 +119,6 @@ public class CommentNoticeFragment extends Fragment {
             ListItem.notification_msg.setText("關於您索取的"+data.get(position).get("title")+",如果滿意可給予用戶"+
                     (String) data.get(position).get("account")+"評論");
             ListItem.notification_time.setText((String)data.get(position).get("createtime"));
-
             return convertView;
         }
     }
@@ -248,6 +249,7 @@ public class CommentNoticeFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.v("lipin","::::::"+response);
                         JsonFoodcard(response);
                         listViewAdapter = new ListViewAdapter(getActivity(),list);
 
@@ -287,6 +289,8 @@ public class CommentNoticeFragment extends Fragment {
     HashMap<String, Object> hashMap;
     List<HashMap<String, Object>>list;
     private void JsonFoodcard(String response) {
+        Log.v("lipin",response);
+
         list = new ArrayList<HashMap<String, Object>>();
 
         try {
@@ -353,6 +357,7 @@ public class CommentNoticeFragment extends Fragment {
         hashMap.put("status",row.optString("status"));
         hashMap.put("createtime",row.optString("createtime"));
         hashMap.put("userid",row.optString("id"));
+        Log.v("lipin",row.optString("id"));
         hashMap.put("qty",row.optString("takerqty"));
         list.add(hashMap);
     }
