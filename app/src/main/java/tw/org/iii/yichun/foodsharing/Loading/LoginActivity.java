@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * 後台驗證帳密
+     * 後台驗證帳密是否正確,最後判斷token是否有被更改,如果有更改,將會update新的token
      */
     private void Verify_account_passwd(){
         String url = "http://"+ Utils.ip +"/FoodSharing_war/Sql_Login_Verify";

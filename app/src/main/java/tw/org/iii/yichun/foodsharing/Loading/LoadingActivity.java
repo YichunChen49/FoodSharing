@@ -254,7 +254,7 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     /**
-     * 拿取以存取帳密到web端判斷
+     * 拿取以存取帳密到web端判斷,最後判斷token是否有被更改,如果有更改,將會update新的token
      */
     private void VerifyID() {
         String url = "http://" + Utils.ip + "/FoodSharing_war/Sql_Login_Verify";

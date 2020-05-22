@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             // 將首頁設為 default fragment
             if (savedInstanceState == null && MainUtils.isGotoProfile()==false) {
                 bmView.setSelectedItemId(R.id.tabHome);
+
+            //如果有廣播過來,跳轉至我的的頁面
             }else if (MainUtils.isGotoProfile()==true){
                 bmView.setSelectedItemId(R.id.tabProfile);
                 MainUtils.setGotoProfile(false);
