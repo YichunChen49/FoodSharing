@@ -8,8 +8,8 @@ android {
         applicationId "tw.org.iii.yichun.foodsharing"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 2020051803
-        versionName "1.0"
+        versionCode 2020052204
+        versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

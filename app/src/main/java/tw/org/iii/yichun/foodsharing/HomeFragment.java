@@ -488,6 +488,7 @@ public class HomeFragment extends Fragment {
     /**
      * 食物 ListView getData
      */
+    Bitmap bitmap;
     // TODO: 2020/4/27 撈資料庫資料
     public void getData( List<HashMap<String, Object>>list) throws ParseException {
         //因為list加入的方式的比對方式是地址,重複的地址物件會被蓋過,所以需要每次尋訪時是產生新的hashMap,故在此new出來
@@ -512,7 +513,7 @@ public class HomeFragment extends Fragment {
         //取出base64的圖片
         String base64Img = row.optString("foodimg");
         //轉成bitmap
-        Bitmap bitmap = MainUtils.base64Tobitmap(base64Img);
+        bitmap = MainUtils.base64Tobitmap(base64Img);
 
         //直接將資料顯示在首頁資訊
 
@@ -571,4 +572,15 @@ public class HomeFragment extends Fragment {
         search.setQuery("",false);//清空搜尋欄
         super.onStop();
     }
+
+    @Override
+    public void onDestroy() {
+        Log.v("lipin","onDestroy");
+        if (bitmap!=null) {
+            bitmap.recycle();
+            System.gc();
+        }
+        super.onDestroy();
+    }
+
 }
